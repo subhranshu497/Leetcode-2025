@@ -1,6 +1,7 @@
 package com.februry;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class CheckIfArrayIsSortedAndRotated {
     public static void main(String[] args) {

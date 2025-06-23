@@ -13,7 +13,7 @@ public class LexicographicalNumbers {
     }
 
     //using recursion
-    private static List<Integer> lexicalOrder(int n) {
+    private static List<Integer> lexicalOrderI(int n) {
         List<Integer> res = new ArrayList<>();
         //we have to run a loop as we have to visiteach num and group by its digits
         for(int num=1;num<=9;num++){
@@ -34,7 +34,7 @@ public class LexicographicalNumbers {
         }
     }
 
-    private static List<Integer> lexicalOrderI(int n) {
+    private static List<Integer> lexicalOrder(int n) {
         List<Integer> res = new ArrayList<>();
         res.add(1);
         while (res.size() <n){
@@ -44,7 +44,7 @@ public class LexicographicalNumbers {
                 res.add(nextNum);
                 continue;
             }
-            while (nextNum % 10 ==9 || nextNum+1 > n){
+            while (nextNum+1 > n  ){
                 nextNum /=10;
             }
             res.add(nextNum+1);
