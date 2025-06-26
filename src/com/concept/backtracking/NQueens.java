@@ -10,19 +10,16 @@ public class NQueens {
         List<List<String>> solution = solveNQueens(n);
         // Loop through each complete solution board
         for (int solIndex = 0; solIndex < solution.size(); solIndex++) {
-            List<String> currentBoard = solution.get(solIndex); // This is one solved board (List of row Strings)
-
+            List<String> currentBoard = solution.get(solIndex);
             System.out.println("Solution " + (solIndex + 1) + ":");
-            // Loop through each row (which is a String) of the current board
             for (int i = 0; i < n; i++) {
-                String rowString = currentBoard.get(i); // Get the i-th row as a String
-                // Now, loop through the characters of this row string
+                String rowString = currentBoard.get(i);
                 for (int j = 0; j < n; j++) {
                     System.out.print(rowString.charAt(j) + " ");
                 }
-                System.out.println(); // New line after each row
+                System.out.println();
             }
-            System.out.println(); // Blank line between solutions for readability
+            System.out.println();
         }
     }
 
