@@ -2,7 +2,7 @@ package com.concept.DynamicProgramming;
 
 public class ClimbingStairs {
     public static void main(String[] args) {
-        int n = 3;
+        int n = 4;
         int steps = climb(n);
         System.out.println(steps);
     }
