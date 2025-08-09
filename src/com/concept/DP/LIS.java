@@ -11,8 +11,26 @@ public class LIS {
         int [][] memo = new int[nums.length+1][nums.length+1];
         for(int [] arr:memo)
             Arrays.fill(arr, -1);
-        int len = lis(nums, 0,-1, memo);
-        System.out.println(len);
+        //int len = lis(nums, 0,-1, memo);
+        //using dp
+        int len1 = lisDP(nums);
+        System.out.println(len1);
+    }
+
+    private static int lisDP(int[] nums) {
+        int n = nums.length;
+        int [] dp = new int[n+1];
+        int lis = Integer.MIN_VALUE;
+        Arrays.fill(dp,1); //if only one element is present in the array then it will be the max
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(nums[i]>nums[j]){
+                    dp[i] = Math.max(dp[i], 1+dp[j]);
+                    lis = Math.max(lis, dp[i]);
+                }
+            }
+        }
+        return lis==Integer.MIN_VALUE?1:lis;
     }
 
     private static int lis(int[] nums, int i, int prev, int [][] memo) {
