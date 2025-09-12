@@ -10,13 +10,8 @@ public class VowelsGameinaString {
     }
 
     private static boolean doesAliceWin(String s) {
-        Set<Character> vowelSet = Set.of('a','e','i','o','u');
-        //count total number of vowels
-        int vowelCount =0;
-        for(char ch:s.toCharArray()){
-            if(vowelSet.contains(ch))vowelCount++;
-        }
-        if(vowelCount==0) return false;
-        return true;
+        if(s.contains("a")||s.contains("e")||s.contains("i")||s.contains("o")||s.contains("u"))
+            return true;
+        return false;
     }
 }
