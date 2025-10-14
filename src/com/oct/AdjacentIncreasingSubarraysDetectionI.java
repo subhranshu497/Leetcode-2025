@@ -1,6 +1,7 @@
 package com.oct;
 
 import java.util.List;
+import java.util.Map;
 
 public class AdjacentIncreasingSubarraysDetectionI {
     public static void main(String[] args) {
@@ -11,34 +12,17 @@ public class AdjacentIncreasingSubarraysDetectionI {
 
     private static boolean hasIncreasingSubarrays(List<Integer> nums, int k) {
         int n = nums.size();
-        int i =0;
-        int j =1;
-        int count =0;
-        int pair =0;
-
-        if (k==1) return true;
-        while (j<n){
-            if(pair ==2)return true;
-            boolean flag = true;
-            count =k;
-            while (count>1 && j<n){
-                if(nums.get(j-1)<nums.get(j)){
-                    count--;
-                }else {
-                    flag= false;
-                    break;
-                }
-                j+=1;
+        int currentRun = 1;
+        int prevRun =0;
+        for(int i=1;i<n;i++){
+            if(nums.get(i-1)<nums.get(i)){
+                currentRun +=1;
+            }else {
+                prevRun = currentRun;
+                currentRun =1;
             }
-            if(!flag || count >1){
-                i +=1;
-                j = i+1;
-                pair =0;
-            }else{
-                pair +=1;
-                j+=1;
-            }
+            if(currentRun >= 2*k || Math.min(currentRun,prevRun)>=k) return true;
         }
-        return pair ==2?true:false;
+        return false;
     }
 }
