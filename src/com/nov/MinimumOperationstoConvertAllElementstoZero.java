@@ -1,7 +1,5 @@
-package com.concept.nov;
+package com.nov;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Stack;
 
 public class MinimumOperationstoConvertAllElementstoZero {

@@ -1,4 +1,4 @@
-package com.concept.nov;
+package com.nov;
 
 import java.util.PriorityQueue;
 

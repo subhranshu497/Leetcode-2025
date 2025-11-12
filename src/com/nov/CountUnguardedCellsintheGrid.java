@@ -1,4 +1,4 @@
-package com.concept.nov;
+package com.nov;
 
 public class CountUnguardedCellsintheGrid {
     private static int [][] directions = {{1,0},{-1,0},{0,1},{0,-1}};

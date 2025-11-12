@@ -1,4 +1,4 @@
-package com.concept.nov;
+package com.nov;
 
 public class MinimumTimetoMakeRopeColorful {
     public static void main(String[] args) {

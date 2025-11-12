@@ -1,7 +1,6 @@
-package com.concept.nov;
+package com.nov;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class DeleteNodesFromLinkedListPresentinArray {
