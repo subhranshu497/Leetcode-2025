@@ -1,5 +1,7 @@
 package com.dec;
 
+import javax.swing.plaf.IconUIResource;
+
 public class DeleteColumnstoMakeSorted {
     public static void main(String[] args) {
         String [] strs = {"zyx","wvu","tsr"};
@@ -8,35 +10,17 @@ public class DeleteColumnstoMakeSorted {
     }
 
     private static int minDeletionSize(String[] strs) {
-        int n = strs[0].length();
         int m = strs.length;
-        int j=0;
-        int i =0;
-        int res =0;
-        char [] chararr = new char[m*n];
-        int len = chararr.length;
-        for(String str:strs){
-            int count =0;
-            while (count < n){
-                chararr[i]= str.charAt(count);
-                i++;
-                count++;
-            }
-        }
-        for(char ch:chararr)
-            System.out.print(ch+", ");
-        i=0;
-        while(i<n){
-            j = i+n;
-            while(j<len){
-                if(chararr[j]<chararr[j-n]){
-                    res +=1;
+        int n = strs[0].length();
+        int count =0;
+        for(int i=0;i<n;i++){
+            for(int j =1;j<m;j++){
+                if(strs[j].charAt(i) < strs[j-1].charAt(i)){
+                    count++;
                     break;
                 }
-                j +=n;
             }
-            i++;
         }
-        return res;
+        return count;
     }
 }

@@ -1,43 +1,8 @@
 package com.oct;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class ConnectingCitiesWithMinimumCost {
-    private static int [] parent ;
-    private static int [] rank;
-    private static int V;
-
-    private void initilizeDSU(int V){
-        this.V = V;
-        parent = new int[V];
-        rank = new int[V];
-        for (int i = 0; i < V; i++) {
-            parent[i] = i;
-            rank[i] = 0;
-        }
-    }
-    private static int find(int x) {
-        if (x == parent[x]) {
-            return x;
-        }
-        return parent[x] = find(parent[x]);
-    }
-
-    private static void union(int x, int y) {
-        int x_parent = find(x);
-        int y_parent = find(y);
-        if (x_parent == y_parent) {
-            return;
-        }
-        if (rank[x_parent] > rank[y_parent]) {
-            parent[y_parent] = x_parent;
-        } else if (rank[x_parent] < rank[y_parent]) {
-            parent[x_parent] = y_parent;
-        } else {
-            parent[x_parent] = y_parent;
-            rank[y_parent]++;
-        }
-    }
     public static void main(String[] args) {
         int [][] connections = {{1,2,5},{1,3,6},{2,3,1}};
         int n = 3;
@@ -46,29 +11,42 @@ public class ConnectingCitiesWithMinimumCost {
     }
 
     private static int minimumCost(int n, int[][] connections) {
-        //find the minimum spanning tree
-        Arrays.sort(connections, (a,b)->a[2]-b[2]);
-        int minCost = krushkal(n, connections);
-        return minCost;
-    }
-
-    private static int krushkal(int n, int[][] connections) {
-        int minWt =0;
-        int edgeConnectted = 0;
-        for(int[] connection:connections){
+        //first create the adj list
+        Map<Integer, List<int[]>> adjList = new HashMap<>();
+        for(int [] connection:connections){
             int u = connection[0]-1;
             int v = connection[1]-1;
-            int wt = connection[2];
-            int parent_u = find(u);
-            int parent_v = find(v);
-
-            if(parent_u != parent_v){
-                union(u,v);
-                minWt +=wt;
-                edgeConnectted++;
+            adjList.computeIfAbsent(u, k->new ArrayList<>()).add(new int[]{v, connection[2]});
+            adjList.computeIfAbsent(v, k->new ArrayList<>()).add(new int[]{u, connection[2]});
+        }
+        System.out.println(adjList);
+        //take a visited array to keep track of the vissited node
+        //take the parent array to keep track of the parent
+        //take a min heap and sort it as per its wt
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        boolean [] visited = new boolean[n];
+        //first push the first node to pq and update its parent is -1 and cost is zero as the cost of travelling from and to the same node
+        pq.offer(new int[]{0,0});
+        int res = 0;
+        int edgeCount =0;
+        while(!pq.isEmpty()){
+            int [] curr = pq.poll();
+            int u = curr[0];
+            int wt = curr[1];
+           if(visited[u])continue;
+            res +=wt;
+            visited[u] = true;
+            edgeCount++;
+            if(edgeCount==n) break;
+            for(int[] vArr:adjList.getOrDefault(u, new ArrayList<>())){
+                int v = vArr[0];
+                int w = vArr[1];
+                if(!visited[v]){
+                    pq.offer(new int[]{v,w});
+                }
             }
         }
-        if(n>0 && edgeConnectted != n-1) return -1;
-        return minWt;
+        if(edgeCount < n) return -1;
+    return res;
     }
 }

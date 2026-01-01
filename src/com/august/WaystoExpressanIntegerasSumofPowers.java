@@ -23,11 +23,21 @@ public class WaystoExpressanIntegerasSumofPowers {
             if(power<=n)
                 powers.add(i);
         }
-        int [][] memo = new int[n+1][n+1];
-        for(int [] arr:memo)
-            Arrays.fill(arr,-1);
-        ways = (calculateWaysForPower(powers, n,x,0,0, memo)%MOD);
-        return ways;
+        //using dp
+        int m = powers.size();
+        int [] dp = new int[n+1];
+        dp[0] =1;
+        for(int i=1;i<m;i++){
+            for(int j=0;j<i;j++){
+                int sum = (int) Math.pow(powers.get(j),x) + (int) Math.pow(powers.get(i),x);
+                if(sum==n)dp[i] +=1;
+            }
+        }
+//        int [][] memo = new int[n+1][n+1];
+//        for(int [] arr:memo)
+//            Arrays.fill(arr,-1);
+//        ways = (calculateWaysForPower(powers, n,x,0,0, memo)%MOD);
+        return dp[m-1];
     }
 
     private static int calculateWaysForPower(List<Integer> powers, int n, int x, int i, int sum, int [][] memo) {

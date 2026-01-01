@@ -1,6 +1,8 @@
 package com.oct;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MaximumFrequencyofanElementAfterPerformingOperationsI {
     public static void main(String[] args) {
@@ -13,28 +15,25 @@ public class MaximumFrequencyofanElementAfterPerformingOperationsI {
 
     private static int maxFrequency(int[] nums, int k, int numOperations) {
         int n = nums.length;
-        int max = Arrays.stream(nums).max().getAsInt();
-        max +=k;
-        //take the frequency Array
-        int [] frequency = new int[max+k+1];
+        int maxEl = Arrays.stream(nums).max().getAsInt()+k;
+        int [] diff = new int[maxEl+2];
+        Map<Integer, Integer> freq = new HashMap<>();
+        //apply diff array technique
         for(int i=0;i<n;i++){
-            frequency[nums[i]]++;
+            int left = Math.max(nums[i]-k,0);
+            int right = Math.min(nums[i]+k,maxEl);
+            diff[left]++;
+            diff[right+1]--;
+            freq.put(nums[i], freq.getOrDefault(nums[i],0)+1);
         }
-        //calculate the cumulative sum
-        for(int i=1;i<=max;i++){
-            frequency[i] +=frequency[i-1];
+        int result =1;
+        for(int target=0;target <=maxEl;target++){
+            if(target > 0) diff[target] +=diff[target-1];
+            int targetFreq = freq.getOrDefault(target, 0);
+            int needConversion = diff[target]-targetFreq;
+            int maxPossible = Math.min(numOperations, needConversion);
+            result = Math.max(result, maxPossible+targetFreq);
         }
-        int res = 0;
-        for(int target =0;target<=max;target++){
-            if(frequency[target]==0)continue;
-            int l = Math.max(0,target-k);
-            int r = Math.min(max,target+k);
-            int totalCoun = frequency[r]-(l>0?frequency[l-1]:0);
-            int targetCount = frequency[target]-(target>0?frequency[target-1]:0);
-            int needConversion = totalCoun - targetCount;
-            int maxPossibleFreq = targetCount + Math.min(needConversion, numOperations);
-            res = Math.max(res, maxPossibleFreq);
-        }
-        return res;
+        return result;
     }
 }

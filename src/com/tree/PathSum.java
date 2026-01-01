@@ -17,17 +17,18 @@ public class PathSum {
     }
 
     private static boolean hasPathSum(TreeNodeI root, int targetSum) {
-        return hasPathSumHelper(root,targetSum);
+
+        return hasPathSumHelper(root,0, targetSum);
     }
 
-    private static boolean hasPathSumHelper(TreeNodeI root, int targetSum) {
-        //base condition
-        if(root==null) return false;
-        if(root.left==null && root.right==null)
-            return targetSum==root.val;
-
-        boolean leftSum = hasPathSumHelper(root.left, targetSum- root.val);
-        boolean rightSum = hasPathSumHelper(root.right,targetSum- root.val);
-        return leftSum || rightSum;
+    private static boolean hasPathSumHelper(TreeNodeI root,int sum, int targetSum) {
+        if(root==null)return false;
+        sum +=root.val;
+        if(root.left==null && root.right == null){
+            if(sum==targetSum) return true;
+        }
+        boolean l = hasPathSumHelper(root.left,sum,targetSum);
+        boolean r = hasPathSumHelper(root.right,sum,targetSum);
+        return l || r;
     }
 }

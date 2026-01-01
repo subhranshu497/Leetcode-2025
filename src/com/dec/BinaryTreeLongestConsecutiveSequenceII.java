@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BinaryTreeLongestConsecutiveSequenceII {
+    private static int res = 0;
     public static void main(String[] args) {
         TreeNodeII root = new TreeNodeII(1);
         root.left = new TreeNodeII(2);
@@ -14,36 +15,34 @@ public class BinaryTreeLongestConsecutiveSequenceII {
     }
 
     private static int longestConsecutiveII(TreeNodeII root) {
-        List<Integer> list = new ArrayList<>();
-        longestConsecutiveIIHelper(root, list);
-        System.out.println(list);
-        //check for increasing and decresing
-        int res = 1;
-        int incLen = 1;
-        int decLen = 1;
-        for(int i=0;i<list.size()-1;i++){
-            if(list.get(i)+1==list.get(i+1)){
-                incLen +=1;
-                res = Math.max(res, incLen);
-            } else {
-                incLen =1;
-            }
-            if(list.get(i)-1 == list.get(i+1)){
-                decLen +=1;
-                res = Math.max(res, decLen);
-            }else {
-                decLen =1;
-            }
-        }
+        if(root==null) return 0;
+        longestConsecutiveIIHelper(root);
         return res;
     }
 
-    private static void longestConsecutiveIIHelper(TreeNodeII root, List<Integer> list) {
-        //base condition
-        if(root == null) return;
-        longestConsecutiveIIHelper(root.left,list);
-        list.add(root.val);
-        longestConsecutiveIIHelper(root.right,list);
+    private static int[] longestConsecutiveIIHelper(TreeNodeII root) {
+        if (root == null) {
+            return new int[]{0,0};
+        }
+        int incr = 1, dcr = 1;
+        int[] left = longestConsecutiveIIHelper(root.left);
+        int[] right = longestConsecutiveIIHelper(root.right);
+        // ans = Math.max(left[0] + right[1]+ 1, ans)
+        if (root.left != null && root.val == root.left.val + 1) {
+            incr = left[0] + 1;
+        }
+        if (root.right != null && root.val == root.right.val + 1) {
+            incr = Math.max(incr, right[0] + 1);
+        }
+        if (root.left != null && root.val == root.left.val - 1) {
+            dcr = left[1] + 1;
+        }
+        if (root.right != null && root.val == root.right.val - 1) {
+            dcr = Math.max(dcr, right[1] + 1);
+        }
+        res = Math.max(res, dcr + incr - 1);
+        return new int[]{incr, dcr};
+
     }
 }
 class TreeNodeII{

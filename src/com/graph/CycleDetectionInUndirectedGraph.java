@@ -22,22 +22,21 @@ public class CycleDetectionInUndirectedGraph {
             adjList.computeIfAbsent(u, k->new ArrayList<>()).add(v);
             adjList.computeIfAbsent(v, k->new ArrayList<>()).add(u);
         }
+        //call dfs to check cycle
         boolean [] visited = new boolean[V];
         for(int i=0;i<V;i++){
-            if(!visited[i] && detectCycle(adjList, visited, i, -1))
-                return true;
+            if(!visited[i])
+                if(detectCyleACGDFS(adjList, i, -1, visited)) return true;
         }
         return false;
     }
 
-    private static boolean detectCycle(Map<Integer, List<Integer>> adjList, boolean[] visited, int u, int parent) {
+    private static boolean detectCyleACGDFS(Map<Integer, List<Integer>> adjList, int u, int parent, boolean[] visited) {
         visited[u] = true;
         for(int v:adjList.getOrDefault(u, new ArrayList<>())){
-            if(v==parent)continue;
-            if(visited[v]) return true;
-            if(detectCycle(adjList, visited, v, u)){
-                return true;
-            }
+            if(v==parent) continue;
+            if(visited[v])return true;
+            if(detectCyleACGDFS(adjList,v,u,visited))return true;
         }
         return false;
     }
